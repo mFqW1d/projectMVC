@@ -1,0 +1,88 @@
+﻿@model arm_repairs_project.Models.ManageUserViewModels.User
+
+@{
+    ViewBag.Title = "Редактирование пользователя";
+    Layout = "~/Views/Shared/_LayoutChief.cshtml";
+}
+
+<h2>Редактирование пользователя</h2>
+<div class="row">
+    <div class="col-xs-12">
+        @using (Html.BeginForm("UserEdit", "Chief", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+        {
+            @Html.AntiForgeryToken()
+            <hr />
+            if (TempData["success"] != null)
+            {
+                <div class="alert alert-success">
+                    <p>@TempData["success"].ToString()</p>
+                </div>
+            }
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            <div class="form-group">
+                @Html.TextBoxFor(m => m.Id, new { @class = "hidden" })
+                @Html.LabelFor(m => m.Fio, new { @class = "col-md-2 control-label" })
+                <div class="col-md-10">
+                    @Html.TextBoxFor(m => m.Fio, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(m => m.Fio, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.UserName, new { @class = "col-md-2 control-label" })
+                <div class="col-md-10">
+                    @Html.TextBoxFor(m => m.UserName, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(m => m.UserName, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.Email, new { @class = "col-md-2 control-label" })
+                <div class="col-md-10">
+                    @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.EmailConfirmed, new { @class = "col-md-2 control-label" })
+                <div class="col-md-10">
+                    @Html.CheckBoxFor(m => m.EmailConfirmed, new { @class = "form-control" })
+                </div>
+            </div>
+
+            <div class="panel panel-primary">
+                <div class="panel-heading">Роли пользователя</div>
+                <div class="panel-body">
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.IsChief, new { @class = "col-md-2 control-label" })
+                        <div class="col-md-10">
+                            @Html.CheckBoxFor(m => m.IsChief, new { @class = "form-control" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.IsManager, new { @class = "col-md-2 control-label" })
+                        <div class="col-md-10">
+                            @Html.CheckBoxFor(m => m.IsManager, new { @class = "form-control" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.IsMaster, new { @class = "col-md-2 control-label" })
+                        <div class="col-md-10">
+                            @Html.CheckBoxFor(m => m.IsMaster, new { @class = "form-control" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.IsUser, new { @class = "col-md-2 control-label" })
+                        <div class="col-md-10">
+                            @Html.CheckBoxFor(m => m.IsUser, new { @class = "form-control" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Сохранить" class="btn btn-success"/>
+                    @Html.ActionLink("Назад","Users","Chief",null, new {@class="btn btn-default"})
+                </div>
+            </div>
+        }
+    </div>
+</div>

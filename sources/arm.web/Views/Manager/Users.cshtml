@@ -1,0 +1,75 @@
+﻿@using Microsoft.AspNet.Identity
+@using Microsoft.AspNet.Identity.Owin
+@model arm_repairs_project.Models.ManageUserViewModels.MangeUsers
+@{
+    ViewBag.Title = "Пользователи";
+    Layout = "~/Views/Shared/_LayoutManager.cshtml";
+}
+
+<h2>Управление пользователями</h2>
+
+@if (Model.Users.Any())
+{
+    if (TempData["success"] != null)
+    {
+        <div class="alert alert-success">
+            <p>@TempData["success"].ToString()</p>
+        </div>
+    }
+    <div class="panel panel-default">
+        <table class="table table-condensed table-hover table-responsive table-striped">
+            <colgroup>
+                <col />
+                <col />
+                <col />
+                <col />
+                <col class="col-width-30" />
+            </colgroup>
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>ФИО</th>
+                    <th>Email</th>
+                    <th>Роли</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @{ int i = 1; }
+                @foreach (var user in Model.Users)
+                {
+                    <tr>
+                        <td>@i</td>
+                        <td>@user.Fio</td>
+                        <td>@user.Email</td>
+                        <td>
+                            @{
+                                var userManager = Request.GetOwinContext().GetUserManager<ApplicationUserManager>();
+                                if (userManager.IsInRole(user.Id, "chief"))
+                                {
+                                    <span>Руководитель</span>
+                                }
+                                if (userManager.IsInRole(user.Id, "manager"))
+                                {
+                                    <span>Менеджер</span>
+                                }
+                                if (userManager.IsInRole(user.Id, "master"))
+                                {
+                                    <span>Мастер</span>
+                                }
+                                if (userManager.IsInRole(user.Id, "user"))
+                                {
+                                    <span>Клиент</span>
+                                }
+                            }
+                        </td>
+                        <td>
+                            <a href="@Url.Action("UserEdit","Manager",new {@id=user.Id})" title="Редактировать"><i class="fa fa-pencil-square-o  fa-lg"></i></a>
+                        </td>
+                    </tr>
+                                    i++;
+                                }
+            </tbody>
+        </table>
+    </div>
+                                }
